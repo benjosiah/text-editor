@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>text Editor</title>
+
+    <style>
+        #text{
+            width: 90%;
+            height: 500px;
+            margin: auto;
+            padding: 50px 20px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+         ul{
+            /* position: absolute; */
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+         ul li{
+            display: inline;
+           
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul>
+            <li>
+                <button data-command="bold">
+                bold
+                </button>
+            </li>
+            <li>
+                <button data-command="italic"> 
+                    Italics
+                </button>
+               
+            </li>
+            <li>
+                <button data-command="justifyLeft">
+                    left
+                </button>
+             
+            </li>
+            <li>
+                <button data-command="justifyRight">
+                    right
+                </button>
+               
+            </li>
+            <li>
+                <button data-command="JustifyCenter">
+                    center
+                </button>
+                
+            </li>
+            <li>
+                <button
+                data-command="createLink"
+                >
+                    link
+                </button>
+             
+            </li>
+            </ul>
+    </div>
+    <div contenteditable="" class="text" id="text">
+      
+    </div>
+
+    <script>
+        let y = document.querySelectorAll("button")
+        let text = document.getElementById('text');
+        // console.log(y)
+        for (const r of y) {
+            // console.log(r)
+            r.addEventListener("click", ()=>{
+                let u = r.dataset['command'];
+                document.execCommand(u, false,null);
+            })
+        }
+    </script>
+</body>
+</html>
