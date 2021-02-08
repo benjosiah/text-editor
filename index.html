@@ -7,6 +7,7 @@
 
     <style>
         #text{
+
             width: 90%;
             height: 500px;
             margin: auto;
@@ -14,6 +15,12 @@
             overflow-y: scroll;
             overflow-x: hidden;
             position: relative;
+        }
+
+        .tools{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
         }
 
          ul{
@@ -31,52 +38,64 @@
     </style>
 </head>
 <body>
-    <div>
-        <ul>
-            <li>
-                <button data-command="bold">
-                bold
-                </button>
-            </li>
-            <li>
-                <button data-command="italic"> 
-                    Italics
-                </button>
-               
-            </li>
-            <li>
-                <button data-command="justifyLeft">
-                    left
-                </button>
-             
-            </li>
-            <li>
-                <button data-command="justifyRight">
-                    right
-                </button>
-               
-            </li>
-            <li>
-                <button data-command="JustifyCenter">
-                    center
-                </button>
-                
-            </li>
-            <li>
-                <button
-                data-command="createLink"
-                >
-                    link
-                </button>
-             
-            </li>
-            </ul>
+    <div class="tools" id="tools">
+       
+        
     </div>
     <div contenteditable="" class="text" id="text">
       
     </div>
 
     <script>
+        let tools_div = document.getElementById('tools');
+        let tools= [
+            {"name": "bold","data":"bold", "icon":"" },
+            {"name": "italic","data":"italic", "icon":"" },
+            {"name": "justify-left","data":"justify-left", "icon":"" },
+            {"name": "justify-right","data":"justify-right", "icon":"" },
+            {"name": "justify-center","data":"justify-center", "icon":"" },
+            {"name": "underline","data":"underline", "icon":"" },
+            {"name": "orered-list","data":"bold", "icon":"" },
+            {"name": "unorered-list","data":"bold", "icon":"" },
+            {"name": "heading","data":"bold", "icon":"", "list":['H1', 'H2', 'H3','H4', 'H5', 'H6']},
+            {"name": "size","data":"bold", "icon":"", "list":[1,2,3,4,5,6,7,8,9,10] },
+            {"name": "orered-list","data":"bold", "icon":"" },
+            {"name": "Background","data":"bold", "icon":"" },
+            {"name": "colour","data":"bold", "icon":"" },
+              
+        ]
+
+        tools.forEach(tool=>{
+
+            // console.log(tool.list)
+            if (tool.list) 
+            {
+                var action = "<select>";
+                   
+                tool.list.forEach(e=>{
+                   action += "<option value='"+e+"'>"+e+" </option>";
+                })
+          
+                action += "<\/select>"
+
+                let div = "<div class='' >"+action+"</div>";
+
+                tools_div.innerHTML += div;
+               
+            }else if(tool.name=="Background" || tool.name=="colour"){
+                
+                var action = "<input type='color' >";
+                let div = "<div class='' >"+action+"</div>";
+
+                tools_div.innerHTML += div;
+            }
+            else{
+                var action = "<input type='button' value= '"+tool.name+"'>";
+                let div = "<div class='' >"+action+"</div>";
+
+                tools_div.innerHTML += div;
+            }
+        });
         let y = document.querySelectorAll("button")
         let text = document.getElementById('text');
         // console.log(y)
