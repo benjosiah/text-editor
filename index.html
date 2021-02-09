@@ -15,12 +15,15 @@
             overflow-y: scroll;
             overflow-x: hidden;
             position: relative;
+            border: solid;
         }
 
         .tools{
             display: flex;
             flex-wrap: wrap;
-            width: 100%;
+            margin: auto;
+            width: 90%;
+            
         }
 
          ul{
@@ -29,6 +32,7 @@
             left: 0;
             right: 0;
             width: 100%;
+
         }
          ul li{
             display: inline;
@@ -48,20 +52,20 @@
 
     <script>
         let tools_div = document.getElementById('tools');
+        let tools_di = document.getElementsByClassName('tools');
         let tools= [
             {"name": "bold","data":"bold", "icon":"" },
             {"name": "italic","data":"italic", "icon":"" },
-            {"name": "justify-left","data":"justify-left", "icon":"" },
-            {"name": "justify-right","data":"justify-right", "icon":"" },
-            {"name": "justify-center","data":"justify-center", "icon":"" },
+            {"name": "justify-left","data":"justifyLeft", "icon":"" },
+            {"name": "justify-right","data":"justifyRight", "icon":"" },
+            {"name": "justify-center","data":"justifyCenter", "icon":"" },
             {"name": "underline","data":"underline", "icon":"" },
-            {"name": "orered-list","data":"bold", "icon":"" },
-            {"name": "unorered-list","data":"bold", "icon":"" },
-            {"name": "heading","data":"bold", "icon":"", "list":['H1', 'H2', 'H3','H4', 'H5', 'H6']},
-            {"name": "size","data":"bold", "icon":"", "list":[1,2,3,4,5,6,7,8,9,10] },
-            {"name": "orered-list","data":"bold", "icon":"" },
-            {"name": "Background","data":"bold", "icon":"" },
-            {"name": "colour","data":"bold", "icon":"" },
+            {"name": "ordered-list","data":"insertOrderedList", "icon":"" },
+            {"name": "unordered-list","data":"insertUnorderedlList", "icon":"" },
+            {"name": "heading","data":"formatBlock", "icon":"", "list":['H1', 'H2', 'H3','H4', 'H5', 'H6']},
+            {"name": "size","data":"fontSize", "icon":"", "list":[1,2,3,4,5,6,7,8,9,10] },
+            {"name": "Background","data":"foreColor", "icon":"" },
+            {"name": "colour","data":"hiliteColor", "icon":"" },
               
         ]
 
@@ -70,7 +74,7 @@
             // console.log(tool.list)
             if (tool.list) 
             {
-                var action = "<select>";
+                var action = "<select data-command='"+tool.data+"'>";
                    
                 tool.list.forEach(e=>{
                    action += "<option value='"+e+"'>"+e+" </option>";
@@ -84,27 +88,53 @@
                
             }else if(tool.name=="Background" || tool.name=="colour"){
                 
-                var action = "<input type='color' >";
+                var action = "<input type='color' data-command='"+tool.data+"'>";
                 let div = "<div class='' >"+action+"</div>";
 
                 tools_div.innerHTML += div;
             }
             else{
-                var action = "<input type='button' value= '"+tool.name+"'>";
+                var action = "<input type='button' value= '"+tool.name+"' data-command='"+tool.data+"'>";
                 let div = "<div class='' >"+action+"</div>";
 
                 tools_div.innerHTML += div;
             }
         });
-        let y = document.querySelectorAll("button")
-        let text = document.getElementById('text');
-        // console.log(y)
-        for (const r of y) {
-            // console.log(r)
-            r.addEventListener("click", ()=>{
-                let u = r.dataset['command'];
-                document.execCommand(u, false,null);
-            })
+
+     
+        let text = document.getElementById('text').focus();
+        for (let element of tools_di[0].children) {
+            if (element.children[0].tagName=== "SELECT") {
+                element.children[0].addEventListener("click", ()=>{
+                    let u = element.children[0].dataset['command'];
+                    let arg = element.children[0].value;
+                    console.log(arg)
+                    document.execCommand(u, false, arg);
+                    // let text = document.getElementById('text').focus();
+                    // console.log(r);
+                })
+            }
+            else if(element.children[0].type === "color"){
+                element.children[0].addEventListener("input", ()=>{
+                    let u = element.children[0].dataset['command'];
+                    let arg = element.children[0].value;
+                    console.log(arg)
+                    document.execCommand(u, false, arg);
+                    // let text = document.getElementById('text').focus();
+                    // console.log(r);
+                })
+            }
+            else{
+                element.addEventListener("click", ()=>{
+                console.log(element.children[0])
+                    let u = element.children[0].dataset['command'];
+                    console.log(element.children[0].type)
+                    // console.log(u)
+                    document.execCommand(u, false,null);
+                    // let text = document.getElementById('text').focus();
+                    // console.log(r);
+                })
+            }
         }
     </script>
 </body>
